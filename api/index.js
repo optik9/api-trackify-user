@@ -1,10 +1,7 @@
 import app from '../src/app.js';
 
+// Configuración específica para Vercel + Express
 export default async (req, res) => {
-  try {
-    await app.ready();
-    app.server.emit('request', req, res);
-  } catch (error) {
-    res.status(500).send('Internal Server Error');
-  }
+  // Proxy de la solicitud a la app de Express
+  app(req, res);
 };
