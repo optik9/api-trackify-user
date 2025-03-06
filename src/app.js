@@ -12,7 +12,9 @@ const port = process.env.PORT || 3000;
 app.use(express.json());
 
 // Routes
-app.use('/api/v1/timesheets', timeSheetRoutes);
+//app.use('/api/v1/timesheets', timeSheetRoutes);
+// Cambiar la ruta base
+app.use('/v1/timesheets', timeSheetRoutes); // Eliminar el /api inicial
 
 // Error handling
 app.use(errorHandler);

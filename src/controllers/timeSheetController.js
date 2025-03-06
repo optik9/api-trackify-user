@@ -31,7 +31,51 @@ const timeSheetController = {
     } catch (error) {
       next(error);
     }
+  },
+
+  async getAllUsersData(req, res, next) {
+    try {
+      const filters = {
+        status: req.query.status,
+        startDate: req.query.start_date,
+        endDate: req.query.end_date
+      };
+
+      // Validar formato de fechas
+      if (filters.startDate && !isValidDate(filters.startDate)) {
+        return res.status(400).json({
+          status: 'error',
+          message: 'Formato de fecha inicial inválido (YYYY-MM-DD)'
+        });
+      }
+
+      if (filters.endDate && !isValidDate(filters.endDate)) {
+        return res.status(400).json({
+          status: 'error',
+          message: 'Formato de fecha final inválido (YYYY-MM-DD)'
+        });
+      }
+
+      const results = await timeSheetModel.getAllUsersData(filters);
+      
+      res.status(200).json({
+        status: 'success',
+        results: results.length,
+        data: results
+      });
+
+    } catch (error) {
+      next(error);
+    }
   }
 };
+
+// Función auxiliar para validar fechas
+function isValidDate(dateString) {
+  const regEx = /^\d{4}-\d{2}-\d{2}$/;
+  if (!dateString.match(regEx)) return false;
+  const d = new Date(dateString);
+  return d instanceof Date && !isNaN(d);
+}
 
 export default timeSheetController;

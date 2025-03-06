@@ -5,4 +5,7 @@ const router = express.Router();
 
 router.get('/:userId', timeSheetController.getUserTimeSheets);
 
+// Nueva ruta
+router.get('/', timeSheetController.getAllUsersData);
+
 export default router;
