@@ -4,9 +4,9 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-   "start": "node src/app.js",
+    "start": "node src/app.js",
     "build": "npm install && echo 'Build completado'",
-    "vercel-build": "npm install && cp -r src/* . && cp .env ."
+    "vercel-build": "npm run build && cp -r src/* ."
   },
   "keywords": [],
   "author": "",
