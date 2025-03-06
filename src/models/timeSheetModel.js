@@ -5,7 +5,8 @@ const timeSheetModel = {
     const [rows] = await pool.query(`
       SELECT 
         users.id As id_user,
-        users.name AS user_name, 
+        users.name AS user_name,
+        users.status AS status, 
         projects.name AS project_name, 
         ts.description,
         ts.time_from,
