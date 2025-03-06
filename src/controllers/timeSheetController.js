@@ -37,6 +37,7 @@ const timeSheetController = {
     try {
       const filters = {
         status: req.query.status,
+        location: req.query.location,
         startDate: req.query.start_date,
         endDate: req.query.end_date
       };
