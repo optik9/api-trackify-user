@@ -2,7 +2,16 @@ import app from '../src/app.js';
 
 // Configuración especial para Vercel + Express
 export default async (req, res) => {
-  // Mantener el path original
+  
+    const app = express();
+
+    app.use(cors({
+      origin: '*',
+      methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+      allowedHeaders: ['Content-Type', 'Authorization']
+    }));
+
+    // Mantener el path original
   const originalUrl = req.url;
   
   // Modificar el path para eliminar el prefijo /api
