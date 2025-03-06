@@ -5,17 +5,13 @@
         "src": "api/index.js",
         "use": "@vercel/node",
         "config": {
-          "includeFiles": ["src/**", "package.json"]
+          "includeFiles": ["src/**", "package.json", ".env"]
         }
       }
     ],
     "routes": [
       {
-        "src": "/api/v1/timesheets/(.*)",
-        "dest": "/api/index.js"
-      },
-      {
-        "src": "/api/v1/timesheets",
+        "src": "/api/(.*)",
         "dest": "/api/index.js"
       }
     ]

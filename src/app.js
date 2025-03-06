@@ -11,17 +11,11 @@ const port = process.env.PORT || 3000;
 // Middleware
 app.use(express.json());
 
-// Routes
-//app.use('/api/v1/timesheets', timeSheetRoutes);
-// Cambiar la ruta base
-app.use('/', timeSheetRoutes); // Eliminar el prefijo de ruta
+// Rutas (¡IMPORTANTE! sin prefijo /api)
+app.use('/v1/timesheets', timeSheetRoutes);
 
-// Error handling
+// Manejador de errores
 app.use(errorHandler);
 
-//app.listen(port, () => {
-//  console.log(`Servidor escuchando en http://localhost:${port}`);
-//});
-
-// Elimina app.listen y exporta la app
+// Exportación para Vercel
 export default app;

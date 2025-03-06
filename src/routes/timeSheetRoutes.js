@@ -3,9 +3,8 @@ import timeSheetController from '../controllers/timeSheetController.js';
 
 const router = express.Router();
 
+// Rutas finales (¡sin /api!)
 router.get('/:userId', timeSheetController.getUserTimeSheets);
-
-// Nueva ruta
 router.get('/', timeSheetController.getAllUsersData);
 
 export default router;
