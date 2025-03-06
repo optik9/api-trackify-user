@@ -39,18 +39,18 @@ const timeSheetController = {
         status: req.query.status,
         location: req.query.location
       };
-
+  
       // Validación de location
       if (filters.location) {
         const allowedLocations = ['Peru', 'Nepal', 'USA', 'Other'];
         if (!allowedLocations.includes(filters.location)) {
           return res.status(400).json({
             status: 'error',
-            message: 'Ubicación no válida. Opciones permitidas: Peru, Nepal, USA, Other'
+            message: 'Ubicación no válida. Opciones permitidas: ' + allowedLocations.join(', ')
           });
         }
       }
-
+  
       const results = await timeSheetModel.getAllUsersData(filters);
       
       res.status(200).json({
@@ -58,12 +58,17 @@ const timeSheetController = {
         results: results.length,
         data: results
       });
-
+  
     } catch (error) {
-      next(error);
+      console.error('Error en getAllUsersData:', error);
+      res.status(500).json({
+        status: 'error',
+        message: process.env.NODE_ENV === 'development' 
+          ? error.message 
+          : 'Error interno del servidor'
+      });
     }
   }
-
 };
 
 // Función auxiliar para validar fechas

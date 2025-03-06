@@ -48,22 +48,32 @@ const timeSheetModel = {
     const queryParams = [];
     const conditions = [];
 
-    // Filtro por status
     if (filters.status) {
       conditions.push('users.status = ?');
       queryParams.push(filters.status);
     }
 
-    // Filtro por location
     if (filters.location) {
-      conditions.push('(CASE /* location case */ END) = ?');
+      // Corregir aquí (usar toda la expresión CASE)
+      conditions.push(`
+        (CASE
+          WHEN TRIM(users.phone) REGEXP '^(\\\\+51|0051)' THEN 'Peru'
+          WHEN TRIM(users.phone) REGEXP '^(\\\\+59|0059)' THEN 'Peru'
+          WHEN TRIM(users.phone) REGEXP '^(\\\\+977|00977)' THEN 'Nepal'
+          WHEN TRIM(users.phone) REGEXP '^(\\\\+1|001)' THEN 'USA'
+          WHEN TRIM(users.phone) REGEXP '^(\\\\+63|0063)' THEN 'USA'
+          ELSE 'Other'
+        END) = ?
+      `);
       queryParams.push(filters.location);
     }
 
-    // Construir WHERE
     if (conditions.length > 0) {
       baseQuery += ' WHERE ' + conditions.join(' AND ');
     }
+
+    console.log('Consulta SQL:', baseQuery); // Para debug
+    console.log('Parámetros:', queryParams); // Para debug
 
     const [rows] = await pool.query(baseQuery, queryParams);
     return rows;
