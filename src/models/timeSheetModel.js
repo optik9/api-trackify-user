@@ -34,8 +34,6 @@ const timeSheetModel = {
         users.id AS id_user,
         users.name AS user_name,
         users.status AS status,
-        
-    
         CASE
           WHEN TRIM(users.phone) REGEXP '^(\\\\+51|0051)' THEN 'Peru'
           WHEN TRIM(users.phone) REGEXP '^(\\\\+59|0059)' THEN 'Peru'
@@ -45,41 +43,28 @@ const timeSheetModel = {
           ELSE 'Other'
         END AS location
       FROM users
-     
     `;
 
-   
-
     const queryParams = [];
-    const whereClauses = [];
+    const conditions = [];
 
     // Filtro por status
     if (filters.status) {
-      whereClauses.push('users.status = ?');
+      conditions.push('users.status = ?');
       queryParams.push(filters.status);
     }
 
-      // Filtro por location
-      if (filters.location) {
-        whereClauses.push('location = ?');
-        queryParams.push(filters.location);
-      }
-
-    // Filtro por fecha
-   // if (filters.startDate && filters.endDate) {
-   //   whereClauses.push('DATE(ts.createdAt) BETWEEN ? AND ?');
-   //   queryParams.push(filters.startDate, filters.endDate);
-   // }
-
-    // Construir query final
-    if (whereClauses.length > 0) {
-      baseQuery += ' WHERE ' + whereClauses.join(' AND ');
+    // Filtro por location
+    if (filters.location) {
+      conditions.push('(CASE /* location case */ END) = ?');
+      queryParams.push(filters.location);
     }
 
-    // Ordenamiento
-    //baseQuery += ' ORDER BY ts.createdAt DESC';
+    // Construir WHERE
+    if (conditions.length > 0) {
+      baseQuery += ' WHERE ' + conditions.join(' AND ');
+    }
 
-    // Ejecutar consulta
     const [rows] = await pool.query(baseQuery, queryParams);
     return rows;
   }

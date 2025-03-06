@@ -37,24 +37,18 @@ const timeSheetController = {
     try {
       const filters = {
         status: req.query.status,
-        location: req.query.location,
-        startDate: req.query.start_date,
-        endDate: req.query.end_date
+        location: req.query.location
       };
 
-      // Validar formato de fechas
-      if (filters.startDate && !isValidDate(filters.startDate)) {
-        return res.status(400).json({
-          status: 'error',
-          message: 'Formato de fecha inicial inválido (YYYY-MM-DD)'
-        });
-      }
-
-      if (filters.endDate && !isValidDate(filters.endDate)) {
-        return res.status(400).json({
-          status: 'error',
-          message: 'Formato de fecha final inválido (YYYY-MM-DD)'
-        });
+      // Validación de location
+      if (filters.location) {
+        const allowedLocations = ['Peru', 'Nepal', 'USA', 'Other'];
+        if (!allowedLocations.includes(filters.location)) {
+          return res.status(400).json({
+            status: 'error',
+            message: 'Ubicación no válida. Opciones permitidas: Peru, Nepal, USA, Other'
+          });
+        }
       }
 
       const results = await timeSheetModel.getAllUsersData(filters);
@@ -69,6 +63,7 @@ const timeSheetController = {
       next(error);
     }
   }
+
 };
 
 // Función auxiliar para validar fechas
