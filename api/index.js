@@ -1,7 +1,15 @@
 import app from '../src/app.js';
 
-// Configuración específica para Vercel + Express
+// Crear un manejador de Express compatible con Vercel
 export default async (req, res) => {
-  // Proxy de la solicitud a la app de Express
-  app(req, res);
+  // Añadir prefijo base a las rutas
+  req.url = `/api/v1/timesheets${req.url}`;
+  
+  // Manejar la solicitud
+  app(req, res, (err) => {
+    if (err) {
+      console.error('Error:', err);
+      res.status(500).send('Internal Server Error');
+    }
+  });
 };

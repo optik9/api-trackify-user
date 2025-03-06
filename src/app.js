@@ -14,7 +14,7 @@ app.use(express.json());
 // Routes
 //app.use('/api/v1/timesheets', timeSheetRoutes);
 // Cambiar la ruta base
-app.use('/v1/timesheets', timeSheetRoutes); // Eliminar el /api inicial
+app.use('/', timeSheetRoutes); // Eliminar el prefijo de ruta
 
 // Error handling
 app.use(errorHandler);

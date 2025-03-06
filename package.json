@@ -6,7 +6,7 @@
   "scripts": {
    "start": "node src/app.js",
     "build": "npm install && echo 'Build completado'",
-    "vercel-build": "npm run build && cp -r src/* ."
+    "vercel-build": "npm install && cp -r src/* . && cp .env ."
   },
   "keywords": [],
   "author": "",
