@@ -44,8 +44,6 @@ const timeSheetModel = {
           ELSE 'Other'
         END AS location
       FROM users
-      ORDER BY
-        users.name ASC
     `;
 
     const queryParams = [];
